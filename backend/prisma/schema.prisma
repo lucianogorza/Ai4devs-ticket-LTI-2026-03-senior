@@ -18,3 +18,68 @@ model User {
   email String  @unique
   name  String?
 }
+
+// Enum for document types (CV files)
+enum DocumentType {
+  CV_PDF
+  CV_DOCX
+}
+
+// Candidate aggregate root - stores job applicant information
+model Candidate {
+  id        Int      @id @default(autoincrement())
+  firstName String   @db.VarChar(100)
+  lastName  String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(255)
+  phone     String?  @db.VarChar(20)
+  address   String?  @db.VarChar(500)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // One-to-many relationships
+  educations      Education[]
+  workExperiences WorkExperience[]
+  documents       Document[]
+}
+
+// Education history for a candidate
+model Education {
+  id           Int       @id @default(autoincrement())
+  institution  String    @db.VarChar(200)
+  degree       String    @db.VarChar(200)
+  fieldOfStudy String?   @db.VarChar(200)
+  startDate    DateTime
+  endDate      DateTime?
+  candidateId  Int
+  candidate    Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([candidateId])
+}
+
+// Work experience history for a candidate
+model WorkExperience {
+  id          Int       @id @default(autoincrement())
+  company     String    @db.VarChar(200)
+  position    String    @db.VarChar(200)
+  description String?   @db.Text
+  startDate   DateTime
+  endDate     DateTime?
+  candidateId Int
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([candidateId])
+}
+
+// Document metadata for candidate CV files
+model Document {
+  id          Int          @id @default(autoincrement())
+  fileName    String       @db.VarChar(255)
+  fileType    DocumentType
+  filePath    String       @db.VarChar(500)
+  fileSize    Int
+  uploadedAt  DateTime     @default(now())
+  candidateId Int
+  candidate   Candidate    @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@index([candidateId])
+}
