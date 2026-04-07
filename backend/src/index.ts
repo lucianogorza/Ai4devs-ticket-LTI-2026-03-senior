@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import candidateRoutes from './routes/candidateRoutes';
 
 dotenv.config();
 const prisma = new PrismaClient();
@@ -11,9 +12,13 @@ export default prisma;
 
 const port = 3010;
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
   res.send('Hola LTI!');
 });
+
+app.use('/api/candidates', candidateRoutes);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
