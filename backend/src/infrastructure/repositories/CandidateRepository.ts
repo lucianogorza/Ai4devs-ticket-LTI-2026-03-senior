@@ -22,7 +22,7 @@ export class CandidateRepository implements ICandidateRepository {
         phone: candidate.phone ?? undefined,
         address: candidate.address ?? undefined,
         educations: {
-          create: candidate.educations.map(e => ({
+          create: candidate.educations.map((e) => ({
             institution: e.institution,
             degree: e.degree,
             fieldOfStudy: e.fieldOfStudy ?? undefined,
@@ -31,7 +31,7 @@ export class CandidateRepository implements ICandidateRepository {
           })),
         },
         workExperiences: {
-          create: candidate.workExperiences.map(w => ({
+          create: candidate.workExperiences.map((w) => ({
             company: w.company,
             position: w.position,
             description: w.description ?? undefined,
@@ -40,7 +40,7 @@ export class CandidateRepository implements ICandidateRepository {
           })),
         },
         documents: {
-          create: candidate.documents.map(d => ({
+          create: candidate.documents.map((d) => ({
             fileName: d.fileName,
             fileType: d.fileType,
             filePath: d.filePath,

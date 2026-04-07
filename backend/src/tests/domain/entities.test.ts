@@ -5,7 +5,11 @@ import { Document } from '../../domain/models/Document';
 
 describe('Candidate', () => {
   it('constructs with required fields', () => {
-    const candidate = new Candidate({ firstName: 'John', lastName: 'Doe', email: 'john@example.com' });
+    const candidate = new Candidate({
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+    });
     expect(candidate.firstName).toBe('John');
     expect(candidate.lastName).toBe('Doe');
     expect(candidate.email).toBe('john@example.com');
@@ -35,7 +39,9 @@ describe('Candidate', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'j@e.com',
-      educations: [{ institution: 'MIT', degree: 'BSc', startDate: '2020-01-01' }],
+      educations: [
+        { institution: 'MIT', degree: 'BSc', startDate: '2020-01-01' },
+      ],
     });
     expect(candidate.educations).toHaveLength(1);
     expect(candidate.educations[0]).toBeInstanceOf(Education);
@@ -46,7 +52,9 @@ describe('Candidate', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'j@e.com',
-      workExperiences: [{ company: 'Acme', position: 'Dev', startDate: '2020-01-01' }],
+      workExperiences: [
+        { company: 'Acme', position: 'Dev', startDate: '2020-01-01' },
+      ],
     });
     expect(candidate.workExperiences).toHaveLength(1);
     expect(candidate.workExperiences[0]).toBeInstanceOf(WorkExperience);
@@ -57,7 +65,14 @@ describe('Candidate', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'j@e.com',
-      documents: [{ fileName: 'cv.pdf', fileType: 'CV_PDF', filePath: '/tmp/cv.pdf', fileSize: 1024 }],
+      documents: [
+        {
+          fileName: 'cv.pdf',
+          fileType: 'CV_PDF',
+          filePath: '/tmp/cv.pdf',
+          fileSize: 1024,
+        },
+      ],
     });
     expect(candidate.documents).toHaveLength(1);
     expect(candidate.documents[0]).toBeInstanceOf(Document);
@@ -66,7 +81,11 @@ describe('Candidate', () => {
 
 describe('Education', () => {
   it('constructs with required fields', () => {
-    const edu = new Education({ institution: 'MIT', degree: 'BSc', startDate: '2020-01-01' });
+    const edu = new Education({
+      institution: 'MIT',
+      degree: 'BSc',
+      startDate: '2020-01-01',
+    });
     expect(edu.institution).toBe('MIT');
     expect(edu.degree).toBe('BSc');
     expect(edu.startDate).toBeInstanceOf(Date);
@@ -75,14 +94,23 @@ describe('Education', () => {
   });
 
   it('constructs with endDate', () => {
-    const edu = new Education({ institution: 'MIT', degree: 'BSc', startDate: '2020-01-01', endDate: '2024-06-01' });
+    const edu = new Education({
+      institution: 'MIT',
+      degree: 'BSc',
+      startDate: '2020-01-01',
+      endDate: '2024-06-01',
+    });
     expect(edu.endDate).toBeInstanceOf(Date);
   });
 });
 
 describe('WorkExperience', () => {
   it('constructs with required fields', () => {
-    const exp = new WorkExperience({ company: 'Acme', position: 'Engineer', startDate: '2022-01-01' });
+    const exp = new WorkExperience({
+      company: 'Acme',
+      position: 'Engineer',
+      startDate: '2022-01-01',
+    });
     expect(exp.company).toBe('Acme');
     expect(exp.position).toBe('Engineer');
     expect(exp.startDate).toBeInstanceOf(Date);
@@ -91,7 +119,13 @@ describe('WorkExperience', () => {
   });
 
   it('constructs with description and endDate', () => {
-    const exp = new WorkExperience({ company: 'Acme', position: 'Dev', startDate: '2022-01-01', endDate: '2023-01-01', description: 'Built things' });
+    const exp = new WorkExperience({
+      company: 'Acme',
+      position: 'Dev',
+      startDate: '2022-01-01',
+      endDate: '2023-01-01',
+      description: 'Built things',
+    });
     expect(exp.description).toBe('Built things');
     expect(exp.endDate).toBeInstanceOf(Date);
   });
@@ -99,7 +133,12 @@ describe('WorkExperience', () => {
 
 describe('Document', () => {
   it('constructs with all fields', () => {
-    const doc = new Document({ fileName: 'cv.pdf', fileType: 'CV_PDF', filePath: '/tmp/cv.pdf', fileSize: 1024 });
+    const doc = new Document({
+      fileName: 'cv.pdf',
+      fileType: 'CV_PDF',
+      filePath: '/tmp/cv.pdf',
+      fileSize: 1024,
+    });
     expect(doc.fileName).toBe('cv.pdf');
     expect(doc.fileType).toBe('CV_PDF');
     expect(doc.filePath).toBe('/tmp/cv.pdf');
@@ -107,7 +146,12 @@ describe('Document', () => {
   });
 
   it('supports CV_DOCX type', () => {
-    const doc = new Document({ fileName: 'cv.docx', fileType: 'CV_DOCX', filePath: '/tmp/cv.docx', fileSize: 512 });
+    const doc = new Document({
+      fileName: 'cv.docx',
+      fileType: 'CV_DOCX',
+      filePath: '/tmp/cv.docx',
+      fileSize: 512,
+    });
     expect(doc.fileType).toBe('CV_DOCX');
   });
 });

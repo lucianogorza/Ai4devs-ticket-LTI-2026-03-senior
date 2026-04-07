@@ -19,7 +19,11 @@ describe('POST /api/candidates', () => {
   it('creates a candidate with required fields only (201)', async () => {
     const res = await request(app)
       .post('/api/candidates')
-      .send({ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' });
+      .send({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+      });
 
     expect(res.status).toBe(201);
     expect(res.body.id).toBeDefined();
@@ -39,9 +43,26 @@ describe('POST /api/candidates', () => {
         email: 'jane.smith@example.com',
         phone: '+1234567890',
         address: '123 Main St',
-        educations: [{ institution: 'MIT', degree: 'BSc', fieldOfStudy: 'CS', startDate: '2018-09-01', endDate: '2022-06-01' }],
-        workExperiences: [{ company: 'Acme', position: 'Engineer', startDate: '2022-07-01' }],
-        documents: [{ fileName: 'cv.pdf', fileType: 'CV_PDF', filePath: '/uploads/cv.pdf', fileSize: 204800 }],
+        educations: [
+          {
+            institution: 'MIT',
+            degree: 'BSc',
+            fieldOfStudy: 'CS',
+            startDate: '2018-09-01',
+            endDate: '2022-06-01',
+          },
+        ],
+        workExperiences: [
+          { company: 'Acme', position: 'Engineer', startDate: '2022-07-01' },
+        ],
+        documents: [
+          {
+            fileName: 'cv.pdf',
+            fileType: 'CV_PDF',
+            filePath: '/uploads/cv.pdf',
+            fileSize: 204800,
+          },
+        ],
       });
 
     expect(res.status).toBe(201);
@@ -63,7 +84,7 @@ describe('POST /api/candidates', () => {
         expect.objectContaining({ field: 'firstName' }),
         expect.objectContaining({ field: 'lastName' }),
         expect.objectContaining({ field: 'email' }),
-      ])
+      ]),
     );
   });
 
@@ -74,7 +95,7 @@ describe('POST /api/candidates', () => {
 
     expect(res.status).toBe(400);
     expect(res.body.details).toEqual(
-      expect.arrayContaining([expect.objectContaining({ field: 'email' })])
+      expect.arrayContaining([expect.objectContaining({ field: 'email' })]),
     );
   });
 

@@ -36,8 +36,12 @@ describe('CandidateController', () => {
   });
 
   it('returns 201 with candidate data on success', async () => {
-    (mockService.createCandidate as jest.Mock).mockResolvedValue(candidateResponse);
-    const req = { body: { firstName: 'John', lastName: 'Doe', email: 'john@example.com' } } as Request;
+    (mockService.createCandidate as jest.Mock).mockResolvedValue(
+      candidateResponse,
+    );
+    const req = {
+      body: { firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
+    } as Request;
     const res = mockResponse() as Response;
 
     await controller.create(req, res);
@@ -58,10 +62,14 @@ describe('CandidateController', () => {
     await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-      error: 'Validation Error',
-      details: expect.arrayContaining([expect.objectContaining({ field: 'email' })]),
-    }));
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        error: 'Validation Error',
+        details: expect.arrayContaining([
+          expect.objectContaining({ field: 'email' }),
+        ]),
+      }),
+    );
   });
 
   it('returns 409 for ConflictError', async () => {
@@ -75,21 +83,27 @@ describe('CandidateController', () => {
     await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(409);
-    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-      error: 'Conflict',
-    }));
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        error: 'Conflict',
+      }),
+    );
   });
 
   it('returns 500 for unexpected errors', async () => {
-    (mockService.createCandidate as jest.Mock).mockRejectedValue(new Error('DB down'));
+    (mockService.createCandidate as jest.Mock).mockRejectedValue(
+      new Error('DB down'),
+    );
     const req = { body: {} } as Request;
     const res = mockResponse() as Response;
 
     await controller.create(req, res);
 
     expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-      error: 'Internal Server Error',
-    }));
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        error: 'Internal Server Error',
+      }),
+    );
   });
 });

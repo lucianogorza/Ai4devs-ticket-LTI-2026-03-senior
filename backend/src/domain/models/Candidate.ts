@@ -25,7 +25,8 @@ export class Candidate {
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
     this.educations = data.educations?.map((e: any) => new Education(e)) ?? [];
-    this.workExperiences = data.workExperiences?.map((w: any) => new WorkExperience(w)) ?? [];
+    this.workExperiences =
+      data.workExperiences?.map((w: any) => new WorkExperience(w)) ?? [];
     this.documents = data.documents?.map((d: any) => new Document(d)) ?? [];
   }
 }

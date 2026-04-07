@@ -48,9 +48,13 @@ describe('CandidateService', () => {
     });
 
     it('throws ValidationError for invalid input', async () => {
-      await expect(service.createCandidate({ ...validDTO, email: 'bad' })).rejects.toMatchObject({
+      await expect(
+        service.createCandidate({ ...validDTO, email: 'bad' }),
+      ).rejects.toMatchObject({
         type: 'ValidationError',
-        details: expect.arrayContaining([expect.objectContaining({ field: 'email' })]),
+        details: expect.arrayContaining([
+          expect.objectContaining({ field: 'email' }),
+        ]),
       });
       expect(mockRepository.create).not.toHaveBeenCalled();
     });
@@ -69,7 +73,9 @@ describe('CandidateService', () => {
 
     it('rethrows unknown errors', async () => {
       mockRepository.create.mockRejectedValue(new Error('DB down'));
-      await expect(service.createCandidate(validDTO)).rejects.toThrow('DB down');
+      await expect(service.createCandidate(validDTO)).rejects.toThrow(
+        'DB down',
+      );
     });
 
     it('creates candidate with related entities', async () => {
@@ -80,18 +86,56 @@ describe('CandidateService', () => {
         email: 'jane@example.com',
         createdAt: new Date(),
         updatedAt: new Date(),
-        educations: [{ id: 1, institution: 'MIT', degree: 'BSc', startDate: new Date(), endDate: null, fieldOfStudy: null }],
-        workExperiences: [{ id: 1, company: 'Acme', position: 'Dev', startDate: new Date(), endDate: null, description: null }],
-        documents: [{ id: 1, fileName: 'cv.pdf', fileType: 'CV_PDF', filePath: '/tmp/cv.pdf', fileSize: 1024, uploadedAt: new Date() }],
+        educations: [
+          {
+            id: 1,
+            institution: 'MIT',
+            degree: 'BSc',
+            startDate: new Date(),
+            endDate: null,
+            fieldOfStudy: null,
+          },
+        ],
+        workExperiences: [
+          {
+            id: 1,
+            company: 'Acme',
+            position: 'Dev',
+            startDate: new Date(),
+            endDate: null,
+            description: null,
+          },
+        ],
+        documents: [
+          {
+            id: 1,
+            fileName: 'cv.pdf',
+            fileType: 'CV_PDF',
+            filePath: '/tmp/cv.pdf',
+            fileSize: 1024,
+            uploadedAt: new Date(),
+          },
+        ],
       });
       mockRepository.create.mockResolvedValue(withRelated);
 
       const dto: CreateCandidateDTO = {
         ...validDTO,
         email: 'jane@example.com',
-        educations: [{ institution: 'MIT', degree: 'BSc', startDate: '2020-01-01' }],
-        workExperiences: [{ company: 'Acme', position: 'Dev', startDate: '2022-01-01' }],
-        documents: [{ fileName: 'cv.pdf', fileType: 'CV_PDF', filePath: '/tmp/cv.pdf', fileSize: 1024 }],
+        educations: [
+          { institution: 'MIT', degree: 'BSc', startDate: '2020-01-01' },
+        ],
+        workExperiences: [
+          { company: 'Acme', position: 'Dev', startDate: '2022-01-01' },
+        ],
+        documents: [
+          {
+            fileName: 'cv.pdf',
+            fileType: 'CV_PDF',
+            filePath: '/tmp/cv.pdf',
+            fileSize: 1024,
+          },
+        ],
       };
 
       const result = await service.createCandidate(dto);
